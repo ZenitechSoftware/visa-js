@@ -9,7 +9,7 @@ describe('visa.js check', () => {
   context('Errors', () => {
     context('Rule returns error', () => {
       it('should catch error and enhance with details', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -26,7 +26,7 @@ describe('visa.js check', () => {
   });
   context('Same operation name used in 2 different objects', () => {
     it('should be authorized first object and NOT authorize second object', () => {
-      visa.use({
+      visa.policy({
         objects: {
           'account': {
             operations: {
@@ -35,11 +35,11 @@ describe('visa.js check', () => {
           },
         }
       });
-      visa.use({
+      visa.policy({
         objects: {
           'loan': {
             operations: {
-              'open': subject => subject.role === 'manager',
+              'open': async subject => subject.role === 'manager',
             }
           },
         }
@@ -56,7 +56,7 @@ describe('visa.js check', () => {
   context('Subject attributes', () => {
     context('Subject attributes are matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -71,7 +71,7 @@ describe('visa.js check', () => {
     });
     context('Subject attributes are NOT matching', () => {
       it('should NOT be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -90,7 +90,7 @@ describe('visa.js check', () => {
   context('Object attributes', () => {
     context('Subject and object attributes are matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -106,7 +106,7 @@ describe('visa.js check', () => {
     });
     context('Subject and multiple objects attributes are matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -122,7 +122,7 @@ describe('visa.js check', () => {
     });
     context('Subject attributes are matching but object attributes are NOT matching', () => {
       it('should NOT be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -140,7 +140,7 @@ describe('visa.js check', () => {
     });
     context('Subject and first object attributes are matching but second object attributes are NOT matching', () => {
       it('should NOT be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -159,7 +159,7 @@ describe('visa.js check', () => {
     });
     context('Rule returns error', () => {
       it('should catch error and enhance with details', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -178,7 +178,7 @@ describe('visa.js check', () => {
   context('Referenced object attributes', () => {
     context('Subject and object reference attributes are matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => Promise.resolve(refs.map(ref => ({ country: 'LT' }))),
@@ -195,7 +195,7 @@ describe('visa.js check', () => {
     });
     context('Subject and multiple objects reference attributes are matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: (refs, cb) => cb(null, refs.map(ref => ({ country: 'LT' }))),
@@ -212,7 +212,7 @@ describe('visa.js check', () => {
     });
     context('Subject attributes are matching but object reference attributes are not matching', () => {
       it('should NOT be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => refs.map(ref => ({ country: 'EN' })),
@@ -230,7 +230,7 @@ describe('visa.js check', () => {
     });
     context('Subject attributes are matching but object multiple references attributes are not matching', () => {
       it('should NOT be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => refs.map(ref => ({ country: 'EN' })),
@@ -248,7 +248,7 @@ describe('visa.js check', () => {
     });
     context('Object reference is provided but mapRefsToObjects function is not provided', () => {
       it('should fail with details provided', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -264,7 +264,7 @@ describe('visa.js check', () => {
     });
     context('mapRefsToObjects function throws error', () => {
       it('should fail with details provided', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: () => { throw new Error('mapRefsToObjects error') },
@@ -281,7 +281,7 @@ describe('visa.js check', () => {
     });
     context('mapRefsToObjects function return error in cb', () => {
       it('should fail with details provided', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: (refs, cb) => cb(new Error('mapRefsToObjects error')),
@@ -298,7 +298,7 @@ describe('visa.js check', () => {
     });
     context('mapRefsToObjects function rejects promise', () => {
       it('should fail with details provided', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: () => Promise.reject(new Error('mapRefsToObjects error')),
@@ -315,7 +315,7 @@ describe('visa.js check', () => {
     });
     context('Provided mapRefsToObjects function returns number of objects that is not equal to number of refs passed', () => {
       it('should not authorize', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => [],
@@ -332,7 +332,7 @@ describe('visa.js check', () => {
     });
     context('mapRefsToObjects function return null for account reference', () => {
       it('should not authorize', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => [null],
@@ -349,7 +349,7 @@ describe('visa.js check', () => {
     });
     context('mapRefsToObjects function return undefined for account reference', () => {
       it('should not authotize', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => [undefined],
@@ -366,7 +366,7 @@ describe('visa.js check', () => {
     });
     context('mapRefsToObjects function returns null', () => {
       it('should fail with details provided', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: () => null,
@@ -385,7 +385,7 @@ describe('visa.js check', () => {
   context('Context attributes', () => {
     context('Subject and context attributes are matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -401,7 +401,7 @@ describe('visa.js check', () => {
     });
     context('Subject attributes are matching but context attributes are NOT matching', () => {
       it('should NOT be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {

@@ -31,11 +31,12 @@ describe('visa.js authorize', () => {
 
     context('user role is matching', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
-                'open': (subject) => subject.role === 'teller',
+                'open': (subject, _, context) => subject.role === 'teller'
+                  && context.ip === '::ffff:127.0.0.1'
               }
             },
           }
@@ -53,7 +54,7 @@ describe('visa.js authorize', () => {
     });
     context('user is the owner of specific object', () => {
       it('should be authorized', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               mapRefsToObjects: refs => refs.map(ref => ({ ownerId: 999 })),
@@ -76,7 +77,7 @@ describe('visa.js authorize', () => {
     });
     context('user role is not matching', () => {
       it('should NOT be authorized and return 401', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {
@@ -98,7 +99,7 @@ describe('visa.js authorize', () => {
     });
     context('visa rule fails', () => {
       it('should NOT be authorized and return 500', () => {
-        visa.use({
+        visa.policy({
           objects: {
             'account': {
               operations: {

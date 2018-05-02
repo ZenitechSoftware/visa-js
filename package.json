@@ -1,7 +1,7 @@
 {
   "name": "visa-js",
   "version": "0.0.1",
-  "description": "Simple Attribute Based Access Control (ABAC) Implementation",
+  "description": "Simple and flexible Access Control Manager based on Attribute Based Access Control (ABAC) paradigm that works well with Express and Passport or independently",
   "main": "index.js",
   "scripts": {
     "test": "nyc mocha"
