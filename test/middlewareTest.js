@@ -6,7 +6,7 @@ const request = require('supertest');
 const passport = require('passport')
 const Strategy = require('passport-strategy').Strategy;
 
-describe('visa.js authorize', () => {
+describe('visa.js middleware', () => {
   context('express app is running and passport local strategy is used', () => {
     let app = null;
     let router = null;
