@@ -161,6 +161,12 @@ app.get(
 - `req.params.objectId` is passed as `refs` array item to `mapRefsToObjects` function defined in policy for `object`.
 - Express `req` object is passed to policy rule as `context` argument.
 
+Use `visa.unauthorizedErrorHandler` middleware to handle `visa.Unauthorized` error and to return HTTP status 401:
+```js
+app.use(visa.unauthorizedErrorHandler); // client receives HTTP status 401 in case access is denied
+```
+- Make sure that `visa.unauthorizedErrorHandler` usage is declared AFTER all the routes where authorization is used.
+
 ## Example
 Let's define policy for sample bank app.
 ```js

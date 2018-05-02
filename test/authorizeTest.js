@@ -9,6 +9,7 @@ const Strategy = require('passport-strategy').Strategy;
 describe('visa.js authorize', () => {
   context('express app is running and passport local strategy is used', () => {
     let app = null;
+    let router = null;
     let server = null;
 
     class TestStrategy extends Strategy {
@@ -20,8 +21,11 @@ describe('visa.js authorize', () => {
 
     beforeEach(() => {
       visa.reset();
+      router = express.Router();
       app = express();
       app.use(passport.initialize());
+      app.use(router);
+      app.use(visa.unauthorizedErrorHandler);
       server = app.listen(3001);
     });
 
@@ -41,7 +45,7 @@ describe('visa.js authorize', () => {
             },
           }
         });
-        app.post(
+        router.post(
           '/api/account',
           passport.authenticate('test', { session: false }),
           visa.authorize(visa.user.can.open.account),
@@ -64,7 +68,7 @@ describe('visa.js authorize', () => {
             },
           }
         });
-        app.delete(
+        router.delete(
           '/api/account/:id',
           passport.authenticate('test', { session: false }),
           visa.authorize(visa.user.can.close.account),
@@ -87,7 +91,7 @@ describe('visa.js authorize', () => {
             },
           }
         });
-        app.delete(
+        router.delete(
           '/api/account/:objectId',
           passport.authenticate('test', { session: false }),
           visa.authorize(visa.user.can.close.account, req => req.params.objectId),
@@ -109,7 +113,7 @@ describe('visa.js authorize', () => {
             },
           }
         });
-        app.post(
+        router.post(
           '/api/account',
           passport.authenticate('test', { session: false }),
           visa.authorize(visa.user.can.open.account),
@@ -131,7 +135,7 @@ describe('visa.js authorize', () => {
             },
           }
         });
-        app.post(
+        router.post(
           '/api/account',
           passport.authenticate('test', { session: false }),
           visa.authorize(visa.user.can.open.account),
