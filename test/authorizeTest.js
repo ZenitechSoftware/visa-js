@@ -75,6 +75,29 @@ describe('visa.js authorize', () => {
           .expect(200);
       });
     });
+    context('user is the owner of specific object referenced with :objectId Express param', () => {
+      it('should be authorized', () => {
+        visa.policy({
+          objects: {
+            'account': {
+              mapRefsToObjects: refs => refs.map(ref => ({ ownerId: 999 })),
+              operations: {
+                'close': (subject, account) => account.ownerId === subject.id,
+              }
+            },
+          }
+        });
+        app.delete(
+          '/api/account/:objectId',
+          passport.authenticate('test', { session: false }),
+          visa.authorize(visa.user.can.close.account, req => req.params.objectId),
+          (req, res) => res.send()
+        );
+        return request(app)
+          .delete('/api/account/1')
+          .expect(200);
+      });
+    });
     context('user role is not matching', () => {
       it('should NOT be authorized and return 401', () => {
         visa.policy({

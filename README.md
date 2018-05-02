@@ -147,6 +147,20 @@ app.get(
 - `req.params.id` is passed as `refs` array item to `mapRefsToObjects` function defined in policy for `object`.
 - Express `req` object is passed to policy rule as `context` argument.
 
+`visa.authorize()` middleware also accepts second argument as function that gets Express `req` object and should return reference to object:
+```js
+app.get(
+  '/api/object/:objectId',
+  passport.authenticate(/* strategy and options */),
+  visa.authorize(visa.user.can.operation1.object1, req => req.params.objectId),
+  (req, res) => {
+    // authorized to perform operation1 on specific object1 referenced by :objectId
+  }
+);
+```
+- `req.params.objectId` is passed as `refs` array item to `mapRefsToObjects` function defined in policy for `object`.
+- Express `req` object is passed to policy rule as `context` argument.
+
 ## Example
 Let's define policy for sample bank app.
 ```js
