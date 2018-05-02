@@ -54,15 +54,22 @@ Visa.js tries to follow same principles for another security aspect - authorizat
 ## Definitions
 ### Subject
 A human user or non-person entity (NPE), such as other systems or bots. Assume that subject and user are synonymous.
+
 ### Object
 A system resource for which access is managed, such as files, API endpoints or processes.
+
 ### Operation
 The execution of a function at the request of a subject upon an object, such as read, write, edit, delete, copy, execute, or modify.
+
 ### Environment conditions
 Operational or situational context in which access requests occur. Environment characteristics are independent of subject or object, and may include the current time, day of the week, location of a user, or the current threat level.
+
 ### Policy
 Policy is the representation of rules or relationships that makes it possible to determine if a requested access should be allowed, given the values of the attributes of the subject, object, and possibly
 environment conditions.
+
+### Access Control Mechanism (ACM)
+Assembles authorization information, which may include information about the object being protected, the subject requesting access, the policies governing access to the resource, and any contextual information needed to make a decision regarding access.
 
 ## Define policies
 Use `visa.policy()` function to define policies (function can be called multiple times for multiple policies):
@@ -256,3 +263,6 @@ await visa.check(req.user).can.revert.transaction({
   context: req
 });
 ```
+
+## Multiple Access Control Mechanisms (ACMs)
+visa.js by default use single global Access Control Mechanism (ACM). In some cases multiple ACMs within same application might be useful. Use `visa.buildACM()` function to build new ACM. ACM instance returned by the function has same functions as `visa` module, except for: `visa.authorize()`, `visa.Unauthorized` and `visa.unauthorizedErrorHandler` (these are not coupled with specific ACM instance).
