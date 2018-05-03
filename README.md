@@ -1,7 +1,7 @@
 # visa.js
 
 [![Build Status](https://travis-ci.org/ZenitechSoftware/visa-js.svg?branch=master)](https://travis-ci.org/ZenitechSoftware/visa-js)
-![Dependencies](https://david-dm.org/ZenitechSoftware/visa-js.svg)
+[![Dependencies](https://david-dm.org/ZenitechSoftware/visa-js.svg)](https://david-dm.org/ZenitechSoftware/visa-js)
 [![Maintainability](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/maintainability)](https://codeclimate.com/github/ZenitechSoftware/visa-js/maintainability)
 [![Test coverage](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/test_coverage)](https://codeclimate.com/github/ZenitechSoftware/visa-js/test_coverage)
 
