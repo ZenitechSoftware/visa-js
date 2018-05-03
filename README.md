@@ -2,7 +2,8 @@
 
 ![Build](https://travis-ci.org/ZenitechSoftware/visa-js.svg?branch=master)
 ![Dependencies](https://david-dm.org/ZenitechSoftware/visa-js.svg)
-![Maintainability](https://codeclimate.com/github/ZenitechSoftware/visa-js/badges/gpa.svg)
+<a href="https://codeclimate.com/github/ZenitechSoftware/visa-js/maintainability"><img src="https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/maintainability" /></a>
+<a href="https://codeclimate.com/github/ZenitechSoftware/visa-js/test_coverage"><img src="https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/test_coverage" /></a>
 
 Simple and flexible Access Control Manager based on [Attribute Based Access Control (ABAC) paradigm](https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.sp.800-162.pdf) that works well with [Express](https://www.npmjs.com/package/express) and [Passport](https://www.npmjs.com/package/passport) or independently.
 

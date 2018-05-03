@@ -1,5 +1,25 @@
+env:
+  global:
+    - CC_TEST_REPORTER_ID=3d68834f0570e7d1ad293a7faf9d68f8dc0a77bcd31c5811db381e020f10b68f
 language: node_js
 node_js:
-  - "6"
-  - "8"
-  - "10"
+  - 6
+  - 8
+  - 10
+dist: trusty
+addons:
+  chrome: stable
+before_script:
+  - yarn global add nyc
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - nyc --reporter=lcov npm test
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
+
+notifications:
+  email: false
