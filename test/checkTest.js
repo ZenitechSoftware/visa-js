@@ -39,7 +39,7 @@ describe('visa.js check', () => {
         objects: {
           'loan': {
             operations: {
-              'open': async subject => subject.role === 'manager',
+              'open': subject => Promise.resolve(subject.role === 'manager'),
             }
           },
         }

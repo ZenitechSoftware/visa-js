@@ -42,13 +42,13 @@ describe('visa.js example', () => {
           'transaction': {
             mapRefsToObjects: refs => Transaction.find({ _id: { $in: refs } }),
             operations: {
-              'create': async (user, _, req) => {
+              'create': (user, _, req) => new Promise((resolve, reject) => {
                 if (subject.role === 'manager') {
-                  return true;
+                  return resolve(true);
                 }
                 const fromAccount = Account.find({ _id: req.body.fromAccountId });
-                return fromAccount.ownerId === user.id;
-              },
+                resolve(fromAccount.ownerId === user.id);
+              }),
               'revert': (user, transaction, req) => user.role === 'cfo'
                 && transaction.date > moment().subtract(1, 'day')
                 && req.ip === '10.0.0.99',
