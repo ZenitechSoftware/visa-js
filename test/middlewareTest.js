@@ -2,6 +2,7 @@ const { describe, describe: context, it } = require('mocha');
 const visa = require('../');
 const should = require('chai').should();
 const express = require('express');
+const expressPromiseRouter = require('express-promise-router');
 const request = require('supertest');
 const passport = require('passport')
 const Strategy = require('passport-strategy').Strategy;
@@ -21,7 +22,7 @@ describe('visa.js middleware', () => {
 
     beforeEach(() => {
       visa.reset();
-      router = express.Router();
+      router = expressPromiseRouter();
       app = express();
       app.use(passport.initialize());
       app.use(router);
@@ -118,6 +119,27 @@ describe('visa.js middleware', () => {
           passport.authenticate('test', { session: false }),
           visa.authorize(visa.user.can.open.account),
           (req, res) => res.send()
+        );
+        return request(app)
+          .post('/api/account')
+          .expect(401);
+      });
+    });
+    context('api method throws visa.Unauthorized', () => {
+      it('should NOT be authorized and return 401', () => {
+        visa.policy({
+          objects: {
+            'account': {
+              operations: {
+                'open': (subject) => subject.role === 'manager',
+              }
+            },
+          }
+        });
+        router.post(
+          '/api/account',
+          passport.authenticate('test', { session: false }),
+          (req, res) => visa.check({ role: 'user' }).can.open.account()
         );
         return request(app)
           .post('/api/account')

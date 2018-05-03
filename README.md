@@ -101,9 +101,9 @@ visa.policy({
 - `mapRefsToObjects` is a function that receives an array of references to objects and returns an array of objects (`Promise`, callback and sync return are supported). Each object should contain attributes (properties) required to evaluate rules. The function is called when access to object by reference is checked.
 
 ## Check permission
-Use `visa.check` function to check permission. The outcome is a `Promises` that is resolved if access is granted and rejected with `visa.Unauthorized` error if access is denied.
+Use `visa.check()` function to check permission. The outcome is a `Promise` that is resolved if access is granted and rejected with `visa.Unauthorized` error if access is denied.
 
-Check for `subject` permission to perform `operation1` on ALL instances of `object1`:
+Check for `subject` permission to perform `operation1` on any instance of `object1`:
 ```js
 visa.check(subject).can.operation1.object1();
 ```
@@ -128,7 +128,7 @@ Check for `subject` permission to perform `operation1` on specific instances of 
 visa.check(subject).can.operation1.object1({refs: [1, 2]});
 ```
 
-Context can optionally be passed in case it is required to evaluate policy rules. For instance, Express `req` is passed as context: 
+Context can optionally be passed in case it is required to evaluate policy rules. For instance, Express `req` object is passed as context: 
 ```js
 visa.check(subject).can.operation1.object1({context: req});
 ```
@@ -144,7 +144,7 @@ app.get(
   }
 );
 ```
-- `visa.authorize()` function takes permission check as an argument that starts with `visa.user` and follows the same structure `visa.check()` function follows.
+- `visa.authorize()` function takes permission check as an argument that starts with `visa.user` and follows the same structure as `visa.check()` function.
 - Express `req` object is passed to policy rule as `context` argument.
 
 `visa.authorize()` middleware also use `req.params.id` Express parameter if present to validate rule against object referenced by `req.params.id`:
@@ -161,14 +161,14 @@ app.get(
 - `req.params.id` is passed as `refs` array item to `mapRefsToObjects` function defined in policy for `object`.
 - Express `req` object is passed to policy rule as `context` argument.
 
-`visa.authorize()` middleware also accepts second argument as function that gets Express `req` object and should return reference to object:
+`visa.authorize()` middleware also accepts second argument as function that gets Express `req` object as argument and should return reference to object:
 ```js
 app.get(
   '/api/object/:objectId',
   passport.authenticate(/* strategy and options */),
   visa.authorize(visa.user.can.operation1.object1, req => req.params.objectId),
   (req, res) => {
-    // authorized to perform operation1 on specific object1 referenced by :objectId
+    // authorized to perform operation1 on specific object1 referenced by :objectId parameter
   }
 );
 ```
@@ -213,7 +213,7 @@ visa.policy({
 ```
 - any `account` can only be `open`ed by `teller`
 - specific `account` can only be `read` by owner
-- any `transaction` can only be `create`ed by `manager` OR by owner of account money are transferred from
+- any `transaction` can only be `create`d by `manager` OR by owner of account money are transferred from
 - `transaction` that was created less than 1 day ago can only be `revert`ed by CFO from specific machine
 
 Let's secure the sample bank app API:
@@ -222,37 +222,37 @@ app.post(
   '/api/account',
   passport.authenticate('test', { session: false }),
   visa.authorize(visa.user.can.open.account),
-  (req, res) => res.send()
+  (req, res) => // authorized to open account
 );
 app.get(
   '/api/account/:id',
   passport.authenticate('test', { session: false }),
   visa.authorize(visa.user.can.read.account),
-  (req, res) => res.send()
+  (req, res) => // authorized to read account referenced by :id parameter
 );
 app.post(
   '/api/transaction',
   passport.authenticate('test', { session: false }),
   visa.authorize(visa.user.can.create.transaction),
-  (req, res) => res.send()
+  (req, res) => // authorized to create transaction
 );
 app.delete(
   '/api/transaction/:id',
   passport.authenticate('test', { session: false }),
   visa.authorize(visa.user.can.revert.transaction),
-  (req, res) => res.send()
+  (req, res) => // authorized to revert transaction referenced by :id parameter
 );
 ```
 
-Let's check for permissions in the code:
+Let's check for permissions somewhere in the code of app:
 ```js
 visa.check(req.user).can.open.account()
   .then(() => {
-    /* authorized */
+    /* authorized to open account*/
   })
   .catch(error => {
     if (error instanceof visa.Unauthorized) {
-      /* unauthorized */
+      /* unauthorized to open account*/
     } else {
       /* handle error */
     }
@@ -270,6 +270,8 @@ await visa.check(req.user).can.revert.transaction({
   context: req
 });
 ```
+
+Please note that in order to avoid unhandled promise rejection error in Express routes when using `visa.check()` function, it is recommended to use middleware such as [express-promise-router](https://www.npmjs.com/package/express-promise-router) to support `Promise`.
 
 ## Multiple Access Control Mechanisms (ACMs)
 visa.js by default use single global Access Control Mechanism (ACM). In some cases multiple ACMs within same application might be useful. Use `visa.buildACM()` function to build new ACM. ACM instance returned by the function has same functions as `visa` module, except for: `visa.authorize()`, `visa.reset()`, `visa.Unauthorized` and `visa.unauthorizedErrorHandler` (these are not coupled with specific ACM instance).
