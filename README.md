@@ -1,9 +1,9 @@
 # visa.js
 
-![Build](https://travis-ci.org/ZenitechSoftware/visa-js.svg?branch=master)
+[![Build Status](https://travis-ci.org/ZenitechSoftware/visa-js.svg?branch=master)](https://travis-ci.org/ZenitechSoftware/visa-js)
 ![Dependencies](https://david-dm.org/ZenitechSoftware/visa-js.svg)
-<a href="https://codeclimate.com/github/ZenitechSoftware/visa-js/maintainability"><img src="https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/maintainability" /></a>
-<a href="https://codeclimate.com/github/ZenitechSoftware/visa-js/test_coverage"><img src="https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/test_coverage" /></a>
+[![Maintainability](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/maintainability)](https://codeclimate.com/github/ZenitechSoftware/visa-js/maintainability)
+[![Test coverage](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/test_coverage)](https://codeclimate.com/github/ZenitechSoftware/visa-js/test_coverage)
 
 Simple and flexible Access Control Manager based on [Attribute Based Access Control (ABAC) paradigm](https://nvlpubs.nist.gov/nistpubs/specialpublications/NIST.sp.800-162.pdf) that works well with [Express](https://www.npmjs.com/package/express) and [Passport](https://www.npmjs.com/package/passport) or independently.
 
@@ -272,4 +272,4 @@ await visa.check(req.user).can.revert.transaction({
 ```
 
 ## Multiple Access Control Mechanisms (ACMs)
-visa.js by default use single global Access Control Mechanism (ACM). In some cases multiple ACMs within same application might be useful. Use `visa.buildACM()` function to build new ACM. ACM instance returned by the function has same functions as `visa` module, except for: `visa.authorize()`, `visa.Unauthorized` and `visa.unauthorizedErrorHandler` (these are not coupled with specific ACM instance).
+visa.js by default use single global Access Control Mechanism (ACM). In some cases multiple ACMs within same application might be useful. Use `visa.buildACM()` function to build new ACM. ACM instance returned by the function has same functions as `visa` module, except for: `visa.authorize()`, `visa.reset()`, `visa.Unauthorized` and `visa.unauthorizedErrorHandler` (these are not coupled with specific ACM instance).
