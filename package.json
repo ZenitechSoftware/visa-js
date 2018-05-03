@@ -4,7 +4,8 @@
   "description": "Simple and flexible Access Control Manager based on Attribute Based Access Control (ABAC) paradigm that works well with Express and Passport or independently",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha"
+    "test": "nyc mocha",
+    "lint": "eslint ."
   },
   "repository": {
     "type": "git",
@@ -28,6 +29,7 @@
   "homepage": "https://github.com/ZenitechSoftware/visa-js#readme",
   "devDependencies": {
     "chai": "^4.1.2",
+    "eslint": "^4.19.1",
     "express": "^4.16.3",
     "express-promise-router": "^3.0.2",
     "mocha": "^5.1.1",

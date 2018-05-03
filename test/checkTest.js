@@ -1,6 +1,7 @@
-const { describe, describe: context, it } = require('mocha');
+const { describe, describe: context, it, beforeEach } = require('mocha');
 const visa = require('../');
-const should = require('chai').should();
+
+require('chai').should();
 
 describe('visa.js check', () => {
 
@@ -181,7 +182,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => Promise.resolve(refs.map(ref => ({ country: 'LT' }))),
+              mapRefsToObjects: refs => Promise.resolve(refs.map(() => ({ country: 'LT' }))),
               operations: {
                 'open': (subject, account) => subject.role === 'teller' && account.country === 'LT',
               }
@@ -198,7 +199,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: (refs, cb) => cb(null, refs.map(ref => ({ country: 'LT' }))),
+              mapRefsToObjects: (refs, cb) => cb(null, refs.map(() => ({ country: 'LT' }))),
               operations: {
                 'open': (subject, account) => subject.role === 'teller' && account.country === 'LT',
               }
@@ -207,7 +208,7 @@ describe('visa.js check', () => {
         });
         const subject = { role: 'teller' };
         return visa.check(subject).can.open.account({ refs: [1, 2] })
-          .then(accounts => accounts.should.deep.equal([{ country: 'LT' }, { country: 'LT' }]));;
+          .then(accounts => accounts.should.deep.equal([{ country: 'LT' }, { country: 'LT' }]));
       });
     });
     context('Subject attributes are matching but object reference attributes are not matching', () => {
@@ -215,7 +216,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => refs.map(ref => ({ country: 'EN' })),
+              mapRefsToObjects: refs => refs.map(() => ({ country: 'EN' })),
               operations: {
                 'open': (subject, account) => subject.role === 'teller' && account.country === 'LT',
               }
@@ -233,7 +234,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => refs.map(ref => ({ country: 'EN' })),
+              mapRefsToObjects: refs => refs.map(() => ({ country: 'EN' })),
               operations: {
                 'open': (subject, account) => subject.role === 'teller' && account.country === 'LT',
               }
@@ -318,7 +319,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => [],
+              mapRefsToObjects: () => [],
               operations: {
                 'open': () => true,
               }
@@ -335,7 +336,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => [null],
+              mapRefsToObjects: () => [null],
               operations: {
                 'open': () => true,
               }
@@ -352,7 +353,7 @@ describe('visa.js check', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => [undefined],
+              mapRefsToObjects: () => [undefined],
               operations: {
                 'open': () => true,
               }

@@ -1,11 +1,12 @@
-const { describe, describe: context, it } = require('mocha');
+const { describe, describe: context, it, beforeEach, afterEach } = require('mocha');
 const visa = require('../');
-const should = require('chai').should();
 const express = require('express');
 const expressPromiseRouter = require('express-promise-router');
 const request = require('supertest');
 const passport = require('passport')
 const Strategy = require('passport-strategy').Strategy;
+
+require('chai').should();
 
 describe('visa.js middleware', () => {
   context('express app is running and passport local strategy is used', () => {
@@ -14,7 +15,7 @@ describe('visa.js middleware', () => {
     let server = null;
 
     class TestStrategy extends Strategy {
-      authenticate(req, options) {
+      authenticate() {
         this.success({ id: 999, role: 'teller' });
       }
     }
@@ -62,7 +63,7 @@ describe('visa.js middleware', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => refs.map(ref => ({ ownerId: 999 })),
+              mapRefsToObjects: refs => refs.map(() => ({ ownerId: 999 })),
               operations: {
                 'close': (subject, account) => account.ownerId === subject.id,
               }
@@ -85,7 +86,7 @@ describe('visa.js middleware', () => {
         visa.policy({
           objects: {
             'account': {
-              mapRefsToObjects: refs => refs.map(ref => ({ ownerId: 999 })),
+              mapRefsToObjects: refs => refs.map(() => ({ ownerId: 999 })),
               operations: {
                 'close': (subject, account) => account.ownerId === subject.id,
               }
@@ -139,7 +140,7 @@ describe('visa.js middleware', () => {
         router.post(
           '/api/account',
           passport.authenticate('test', { session: false }),
-          (req, res) => visa.check({ role: 'user' }).can.open.account()
+          () => visa.check({ role: 'user' }).can.open.account()
         );
         return request(app)
           .post('/api/account')
@@ -152,7 +153,7 @@ describe('visa.js middleware', () => {
           objects: {
             'account': {
               operations: {
-                'open': (subject) => { throw new Error('test error') },
+                'open': () => { throw new Error('test error') },
               }
             },
           }

@@ -197,7 +197,7 @@ visa.policy({
       mapRefsToObjects: refs => Transaction.find({ _id: { $in: refs } }),
       operations: {
         'create': async (user, _, req) => {
-          if (subject.role === 'manager') {
+          if (user.role === 'manager') {
             return true;
           }
           const fromAccount = Account.find({ _id: req.body.fromAccountId});
