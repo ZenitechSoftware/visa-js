@@ -132,6 +132,15 @@ Context can optionally be passed in case it is required to evaluate policy rules
 ```js
 visa.check(subject).can.operation1.object1({context: req});
 ```
+
+## Ask if has permission
+Use `visa.ask()` function to ask if user has permission. The outcome is a `Promise` that is resolved to `true` if access is granted, `false` if access is denied.
+
+`visa.ask()` function follows the same structure as `visa.check()` function. For example, ask `subject` if he has permission to perform `operation1` on any instance of `object1`:
+```js
+visa.ask(subject).can.operation1.object1();
+```
+
 ## Integration with Express and Passport
 Use `visa.authorize()` as an Express middleware. Middleware use subject as `req.user` property, therefore, `passport.authenticate()` middleware should be used before `visa.authorize()`:
 ```js
@@ -248,11 +257,11 @@ Let's check for permissions somewhere in the code of app:
 ```js
 visa.check(req.user).can.open.account()
   .then(() => {
-    /* authorized to open account*/
+    /* authorized to open account */
   })
   .catch(error => {
     if (error instanceof visa.Unauthorized) {
-      /* unauthorized to open account*/
+      /* unauthorized to open account */
     } else {
       /* handle error */
     }
@@ -271,7 +280,34 @@ await visa.check(req.user).can.revert.transaction({
 });
 ```
 
-Please note that in order to avoid unhandled promise rejection error in Express routes when using `visa.check()` function, it is recommended to use middleware such as [express-promise-router](https://www.npmjs.com/package/express-promise-router) to support `Promise`.
+Let's ask if user has permissions somewhere in the code of app:
+```js
+visa.ask(req.user).can.open.account()
+  .then(answer => {
+    if (answer) {
+      /* authorized to open account */
+    } else {
+      /* unauthorized to open account */
+    }
+  })
+  .catch(error => {
+   /* handle error */
+  };
+```
+```js
+const answer = await visa.check(req.user).can.read.account({ ref: req.params.id });
+```
+```js
+const answer = await visa.check(req.user).can.create.transaction({ context: req });
+```
+```js
+const answer = await visa.check(req.user).can.revert.transaction({
+  ref: req.params.id,
+  context: req
+});
+```
+
+Please note that in order to avoid unhandled promise rejection error in Express routes when using `visa.check()` function, it is recommended to use middleware such as [express-async-errors](https://www.npmjs.com/package/express-async-errors) to support `Promise`.
 
 ## Multiple Access Control Mechanisms (ACMs)
 visa.js by default use single global Access Control Mechanism (ACM). In some cases multiple ACMs within same application might be useful. Use `visa.buildACM()` function to build new ACM. ACM instance returned by the function has same functions as `visa` module, except for: `visa.authorize()`, `visa.reset()`, `visa.Unauthorized` and `visa.unauthorizedErrorHandler` (these are not coupled with specific ACM instance).

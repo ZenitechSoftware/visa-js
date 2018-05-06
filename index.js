@@ -8,6 +8,7 @@ Object.defineProperty(module.exports, 'user', { get: acm.check });
 module.exports.Unauthorized = Unauthorized;
 module.exports.policy = acm.policy;
 module.exports.check = acm.check;
+module.exports.ask = acm.ask;
 module.exports.reset = () => acm = build();
 
 module.exports.authorize = authorize;

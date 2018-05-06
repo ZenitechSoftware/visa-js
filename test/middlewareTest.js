@@ -1,11 +1,11 @@
 const { describe, describe: context, it, beforeEach, afterEach } = require('mocha');
 const visa = require('../');
 const express = require('express');
-const expressPromiseRouter = require('express-promise-router');
 const request = require('supertest');
 const passport = require('passport')
 const Strategy = require('passport-strategy').Strategy;
 
+require('express-async-errors');
 require('chai').should();
 
 describe('visa.js middleware', () => {
@@ -23,7 +23,7 @@ describe('visa.js middleware', () => {
 
     beforeEach(() => {
       visa.reset();
-      router = expressPromiseRouter();
+      router = new express.Router();
       app = express();
       app.use(passport.initialize());
       app.use(router);

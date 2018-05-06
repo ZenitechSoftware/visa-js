@@ -349,7 +349,7 @@ describe('visa.js check', () => {
       });
     });
     context('mapRefsToObjects function return undefined for account reference', () => {
-      it('should not authotize', () => {
+      it('should not authorize', () => {
         visa.policy({
           objects: {
             'account': {
