@@ -141,6 +141,15 @@ Use `visa.ask()` function to ask if user has permission. The outcome is a `Promi
 visa.ask(subject).can.operation1.object1();
 ```
 
+## Check/Ask if does NOT have permission
+Use `can.not` structure in `visa.check()` or `visa.ask()` function to check/ask if user does NOT have permission:
+```js
+visa.check(subject).can.not.operation1.object1();
+```
+```js
+visa.ask(subject).can.not.operation1.object1();
+```
+
 ## Integration with Express and Passport
 Use `visa.authorize()` as an Express middleware. Middleware use subject as `req.user` property, therefore, `passport.authenticate()` middleware should be used before `visa.authorize()`:
 ```js
