@@ -1,4 +1,3 @@
-const { describe, describe: context, it, beforeEach, afterEach } = require('mocha');
 const visa = require('../');
 const express = require('express');
 const request = require('supertest');

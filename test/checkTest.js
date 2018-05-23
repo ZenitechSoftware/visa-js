@@ -1,4 +1,3 @@
-const { describe, describe: context, it, beforeEach } = require('mocha');
 const visa = require('../');
 
 require('chai').should();
