@@ -304,13 +304,13 @@ visa.ask(req.user).can.open.account()
   };
 ```
 ```js
-const answer = await visa.check(req.user).can.read.account({ ref: req.params.id });
+const answer = await visa.ask(req.user).can.read.account({ ref: req.params.id });
 ```
 ```js
-const answer = await visa.check(req.user).can.create.transaction({ context: req });
+const answer = await visa.ask(req.user).can.create.transaction({ context: req });
 ```
 ```js
-const answer = await visa.check(req.user).can.revert.transaction({
+const answer = await visa.ask(req.user).can.revert.transaction({
   ref: req.params.id,
   context: req
 });
