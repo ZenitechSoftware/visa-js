@@ -36,7 +36,7 @@ describe('visa.js ask', () => {
         }
       });
       const subject = { role: 'teller' };
-      return visa.ask(subject).can.open.account().then(answer => answer.should.equal(true));
+      visa.ask(subject).can.open.account().then(answer => answer.should.equal(true));
     });
   });
   context('Rule returns false', () => {
@@ -51,37 +51,7 @@ describe('visa.js ask', () => {
         }
       });
       const subject = { role: 'manager' };
-      return visa.ask(subject).can.open.account().then(answer => answer.should.equal(false));
-    });
-  });
-  context('can.not', () => {
-    context('Rule fails', () => {
-      it('should return true', () => {
-        visa.policy({
-          objects: {
-            'account': {
-              operations: {
-                'open': () => false
-              }
-            }
-          }
-        });
-        return visa.ask().can.not.open.account().then(answer => answer.should.equal(true));
-      });
-    });
-    context('Rule passes', () => {
-      it('should return false', () => {
-        visa.policy({
-          objects: {
-            'account': {
-              operations: {
-                'open': () => true
-              }
-            }
-          }
-        });
-        return visa.ask().can.not.open.account().then(answer => answer.should.equal(false));
-      });
+      visa.ask(subject).can.open.account().then(answer => answer.should.equal(false));
     });
   });
 });
