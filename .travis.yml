@@ -3,7 +3,6 @@ env:
     - CC_TEST_REPORTER_ID=3d68834f0570e7d1ad293a7faf9d68f8dc0a77bcd31c5811db381e020f10b68f
 language: node_js
 node_js:
-  - 8
   - 10
   - 12
 dist: trusty
