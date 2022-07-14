@@ -1,7 +1,7 @@
 # visa.js
 
 [![Build Status](https://github.com/ZenitechSoftware/visa-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/ZenitechSoftware/visa-js/actions/workflows/node.js.yml)
-[![Known Vulnerabilities](https://snyk.io/test/github/ZenitechSoftware/visa-js/badge.svg)](https://www.npmjs.com/package/visa-js)
+[![Known Vulnerabilities](https://snyk.io/test/github/ZenitechSoftware/visa-js/badge.svg)]([https://www.npmjs.com/package/visa-js](https://snyk.io/test/github/ZenitechSoftware/visa-js))
 [![Maintainability](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/maintainability)](https://codeclimate.com/github/ZenitechSoftware/visa-js/maintainability)
 [![Test coverage](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/test_coverage)](https://codeclimate.com/github/ZenitechSoftware/visa-js/test_coverage)
 
