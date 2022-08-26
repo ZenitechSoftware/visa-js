@@ -39,6 +39,6 @@
     "supertest": "^4.0.2"
   },
   "dependencies": {
-    "async": "^3.2.3"
+    "async": "^3.2.4"
   }
 }
