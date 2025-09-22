@@ -24,3 +24,7 @@ jobs:
       - run: npm ci
       - run: npm run lint
       - run: npm test
+      - uses: qltysh/qlty-action/coverage@v2
+        with:
+          token: { { secrets.QLTY_COVERAGE_TOKEN } }
+          files: coverage/lcov.info
