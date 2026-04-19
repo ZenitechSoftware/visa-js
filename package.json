@@ -3,7 +3,7 @@
   "version": "1.0.27",
   "type": "module",
   "description": "Simple and flexible Access Control Manager based on Attribute Based Access Control (ABAC) paradigm that works well with Express and Passport or independently",
-  "main": "index.js",
+  "main": "index.cjs",
   "scripts": {
     "test": "nyc --reporter=lcov mocha",
     "lint": "eslint . --ext .js"

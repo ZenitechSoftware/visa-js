@@ -1,4 +1,4 @@
-const visa = require("..");
+const visa = require("../index.cjs");
 
 require("chai").should();
 
@@ -27,8 +27,8 @@ describe("visa.js ask", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': rule failed with error: Some rule error`
-            )
+              `visa.js: object 'account' operation 'open': rule failed with error: Some rule error`,
+            ),
           );
       });
     });
