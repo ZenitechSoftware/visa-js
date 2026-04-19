@@ -1,5 +1,5 @@
 const { build, Unauthorized } = require("./lib/acm.cjs");
-const { authorize, unauthorizedErrorHandler } = require("./lib/middleware.js");
+const { authorize, unauthorizedErrorHandler } = require("./lib/middleware.cjs");
 
 let acm = build();
 
