@@ -27,8 +27,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': rule failed with error: Some rule error`
-            )
+              `visa.js: object 'account' operation 'open': rule failed with error: Some rule error`,
+            ),
           );
       });
     });
@@ -171,7 +171,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context(
       "Subject and first object attributes are matching but second object attributes are NOT matching",
@@ -200,7 +200,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context("Rule returns error", () => {
       it("should catch error and enhance with details", () => {
@@ -224,8 +224,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': rule failed with error: Some rule error`
-            )
+              `visa.js: object 'account' operation 'open': rule failed with error: Some rule error`,
+            ),
           );
       });
     });
@@ -262,7 +262,7 @@ describe("visa.js check", () => {
                 mapRefsToObjects: (refs, cb) =>
                   cb(
                     null,
-                    refs.map(() => ({ country: "LT" }))
+                    refs.map(() => ({ country: "LT" })),
                   ),
                 operations: {
                   open: (subject, account) =>
@@ -276,10 +276,13 @@ describe("visa.js check", () => {
             .check(subject)
             .can.open.account({ refs: [1, 2] })
             .then((accounts) =>
-              accounts.should.deep.equal([{ country: "LT" }, { country: "LT" }])
+              accounts.should.deep.equal([
+                { country: "LT" },
+                { country: "LT" },
+              ]),
             );
         });
-      }
+      },
     );
     context(
       "Subject attributes are matching but object reference attributes are not matching",
@@ -307,7 +310,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context(
       "Subject attributes are matching but object multiple references attributes are not matching",
@@ -335,7 +338,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context(
       "Object reference is provided but mapRefsToObjects function is not provided",
@@ -358,11 +361,11 @@ describe("visa.js check", () => {
             })
             .catch((error) =>
               error.message.should.equal(
-                `visa.js: object 'account' operation 'open': object references (1) can not be resolved because 'mapRefsToObjects' method is not provided`
-              )
+                `visa.js: object 'account' operation 'open': object references (1) can not be resolved because 'mapRefsToObjects' method is not provided`,
+              ),
             );
         });
-      }
+      },
     );
     context("mapRefsToObjects function throws error", () => {
       it("should fail with details provided", () => {
@@ -386,8 +389,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': object references (1) can not be resolved because of 'mapRefsToObjects' error: mapRefsToObjects error`
-            )
+              `visa.js: object 'account' operation 'open': object references (1) can not be resolved because of 'mapRefsToObjects' error: mapRefsToObjects error`,
+            ),
           );
       });
     });
@@ -412,8 +415,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': object references (1) can not be resolved because of 'mapRefsToObjects' error: mapRefsToObjects error`
-            )
+              `visa.js: object 'account' operation 'open': object references (1) can not be resolved because of 'mapRefsToObjects' error: mapRefsToObjects error`,
+            ),
           );
       });
     });
@@ -438,8 +441,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': object references (1) can not be resolved because of 'mapRefsToObjects' error: mapRefsToObjects error`
-            )
+              `visa.js: object 'account' operation 'open': object references (1) can not be resolved because of 'mapRefsToObjects' error: mapRefsToObjects error`,
+            ),
           );
       });
     });
@@ -467,7 +470,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context(
       "mapRefsToObjects function return null for account reference",
@@ -493,7 +496,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context(
       "mapRefsToObjects function return undefined for account reference",
@@ -519,7 +522,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
     context("mapRefsToObjects function returns null", () => {
       it("should fail with details provided", () => {
@@ -541,8 +544,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': 'mapRefsToObjects' function should return array of objects`
-            )
+              `visa.js: object 'account' operation 'open': 'mapRefsToObjects' function should return array of objects`,
+            ),
           );
       });
     });
@@ -591,7 +594,7 @@ describe("visa.js check", () => {
               if (!(error instanceof visa.Unauthorized)) throw error;
             });
         });
-      }
+      },
     );
   });
   context("can.not", () => {
@@ -652,8 +655,8 @@ describe("visa.js check", () => {
           })
           .catch((error) =>
             error.message.should.equal(
-              `visa.js: object 'account' operation 'open': rule failed with error: rule error`
-            )
+              `visa.js: object 'account' operation 'open': rule failed with error: rule error`,
+            ),
           );
       });
     });

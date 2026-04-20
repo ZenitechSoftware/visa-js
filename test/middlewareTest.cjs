@@ -4,7 +4,6 @@ const request = require("supertest");
 const passport = require("passport");
 const Strategy = require("passport-strategy").Strategy;
 
-require("express-async-errors");
 require("chai").should();
 
 describe("visa.js middleware", () => {
@@ -51,7 +50,7 @@ describe("visa.js middleware", () => {
           "/api/account",
           passport.authenticate("test", { session: false }),
           visa.authorize(visa.user.can.open.account),
-          (req, res) => res.send()
+          (req, res) => res.send(),
         );
         return request(app).post("/api/account").expect(200);
       });
@@ -72,7 +71,7 @@ describe("visa.js middleware", () => {
           "/api/account/:id",
           passport.authenticate("test", { session: false }),
           visa.authorize(visa.user.can.close.account),
-          (req, res) => res.send()
+          (req, res) => res.send(),
         );
         return request(app).delete("/api/account/1").expect(200);
       });
@@ -96,13 +95,13 @@ describe("visa.js middleware", () => {
             passport.authenticate("test", { session: false }),
             visa.authorize(
               visa.user.can.close.account,
-              (req) => req.params.objectId
+              (req) => req.params.objectId,
             ),
-            (req, res) => res.send()
+            (req, res) => res.send(),
           );
           return request(app).delete("/api/account/1").expect(200);
         });
-      }
+      },
     );
     context("user role is not matching", () => {
       it("should NOT be authorized and return 401", () => {
@@ -119,7 +118,7 @@ describe("visa.js middleware", () => {
           "/api/account",
           passport.authenticate("test", { session: false }),
           visa.authorize(visa.user.can.open.account),
-          (req, res) => res.send()
+          (req, res) => res.send(),
         );
         return request(app).post("/api/account").expect(401);
       });
@@ -138,7 +137,7 @@ describe("visa.js middleware", () => {
         router.post(
           "/api/account",
           passport.authenticate("test", { session: false }),
-          () => visa.check({ role: "user" }).can.open.account()
+          () => visa.check({ role: "user" }).can.open.account(),
         );
         return request(app).post("/api/account").expect(401);
       });
@@ -160,7 +159,7 @@ describe("visa.js middleware", () => {
           "/api/account",
           passport.authenticate("test", { session: false }),
           visa.authorize(visa.user.can.open.account),
-          (req, res) => res.send()
+          (req, res) => res.send(),
         );
         return request(app).post("/api/account").expect(500);
       });

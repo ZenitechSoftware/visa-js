@@ -1,7 +1,7 @@
 # visa.js
 
 [![Build Status](https://github.com/ZenitechSoftware/visa-js/actions/workflows/node.js.yml/badge.svg)](https://github.com/ZenitechSoftware/visa-js/actions/workflows/node.js.yml)
-[![Known Vulnerabilities](https://snyk.io/test/github/ZenitechSoftware/visa-js/badge.svg)]([https://www.npmjs.com/package/visa-js](https://snyk.io/test/github/ZenitechSoftware/visa-js))
+[![Known Vulnerabilities](https://snyk.io/test/github/ZenitechSoftware/visa-js/badge.svg)](<[https://www.npmjs.com/package/visa-js](https://snyk.io/test/github/ZenitechSoftware/visa-js)>)
 [![Maintainability](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/maintainability)](https://codeclimate.com/github/ZenitechSoftware/visa-js/maintainability)
 [![Test coverage](https://api.codeclimate.com/v1/badges/37c6655235e6edad1c58/test_coverage)](https://codeclimate.com/github/ZenitechSoftware/visa-js/test_coverage)
 
@@ -40,7 +40,7 @@ app.post(
   visa.authorize(visa.user.can.open.account),
   (req, res) => {
     // authorized to open account
-  }
+  },
 );
 
 app.get(
@@ -49,7 +49,7 @@ app.get(
   visa.authorize(visa.user.can.read.account),
   (req, res) => {
     // authorized to read specific account
-  }
+  },
 );
 ```
 
@@ -186,7 +186,7 @@ app.get(
   visa.authorize(visa.user.can.operation1.object1),
   (req, res) => {
     // authorized to perform operation1 on any object1
-  }
+  },
 );
 ```
 
@@ -202,7 +202,7 @@ app.get(
   visa.authorize(visa.user.can.operation1.object1),
   (req, res) => {
     // authorized to perform operation1 on specific object1 referenced by :id
-  }
+  },
 );
 ```
 
@@ -217,11 +217,11 @@ app.get(
   passport.authenticate(/* strategy and options */),
   visa.authorize(
     visa.user.can.operation1.object1,
-    (req) => req.params.objectId
+    (req) => req.params.objectId,
   ),
   (req, res) => {
     // authorized to perform operation1 on specific object1 referenced by :objectId parameter
-  }
+  },
 );
 ```
 
