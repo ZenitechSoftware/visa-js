@@ -5,8 +5,8 @@
   "description": "Simple and flexible Access Control Manager based on Attribute Based Access Control (ABAC) paradigm that works well with Express and Passport or independently",
   "main": "index.cjs",
   "scripts": {
-    "test": "nyc --reporter=lcov mocha",
-    "lint": "eslint . --ext .js",
+    "test": "jest --coverage",
+    "lint": "eslint . --ext .js,.cjs",
     "prettier": "prettier --write ."
   },
   "repository": {
@@ -30,13 +30,11 @@
   },
   "homepage": "https://github.com/ZenitechSoftware/visa-js#readme",
   "devDependencies": {
-    "chai": "^6.2.2",
     "eslint": "^10.2.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
     "express": "^5.2.1",
-    "mocha": "^11.7.5",
-    "nyc": "^18.0.0",
+    "jest": "^30.3.0",
     "passport": "^0.7.0",
     "prettier": "^3.8.3",
     "supertest": "^7.2.2"
